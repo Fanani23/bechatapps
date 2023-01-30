@@ -57,9 +57,26 @@ const update = (data) => {
   );
 };
 
+const updatePhoto = (data) => {
+  const { id, photo } = data;
+  return new Promise((resolve, reject) =>
+    pool.query(
+      `UPDATE users SET photo='${photo}' WHERE id='${id}'`,
+      (err, result) => {
+        if (!err) {
+          resolve(result);
+        } else {
+          reject(err);
+        }
+      }
+    )
+  );
+};
+
 module.exports = {
   createUsers,
   checkEmail,
   getAll,
   update,
+  updatePhoto,
 };

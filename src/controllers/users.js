@@ -88,6 +88,23 @@ const userController = {
     }
   },
 
+  updatePhoto: async (req, res) => {
+    try {
+      const { id } = req.payload;
+      const image = await cloudinary.uploader.upload(req.file.path, {
+        folder: "toko",
+      });
+      const data = {
+        id,
+        photo: image.url,
+      };
+      await modelUsers.updatePhoto(data);
+      return response(res, 200, true, null, "Update photo user success");
+    } catch (error) {
+      return response(res, 404, true, error, "Update photo user failed");
+    }
+  },
+
   profile: async (req, res, next) => {
     const { email } = req.payload;
     try {
